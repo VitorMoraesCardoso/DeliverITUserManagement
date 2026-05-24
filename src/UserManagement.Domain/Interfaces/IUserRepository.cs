@@ -10,8 +10,5 @@ public interface IUserRepository
     Task<User?> GetByIdAsync(int id);
     Task<IEnumerable<User>> GetPagedAsync(int page, int pageSize);
     Task<int> GetTotalCountAsync();
-    
-    //Caso a validacao de e-mail unico n fosse feita pelo banco, poderia adicionar
-    //um metodo para verificar se o email ja existe
-    //Task<bool> EmailExistsAsync(string email);
+    Task<bool> EmailExistsAsync(string email, int? excludeUserId = null);
 }

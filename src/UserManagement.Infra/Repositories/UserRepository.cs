@@ -43,6 +43,12 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
     {
         return await _dbContext.Users.CountAsync();
     }
+    
+    public async Task<bool> EmailExistsAsync(string email, int? excludeUserId = null)
+    {
+        return await _dbContext.Users
+            .AnyAsync(u => u.Email == email && (!excludeUserId.HasValue || u.Id != excludeUserId.Value));
+    }
 
     public async Task<bool> SaveChangesAsync()
     {
