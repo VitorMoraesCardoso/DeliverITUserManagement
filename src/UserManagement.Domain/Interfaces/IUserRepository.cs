@@ -11,4 +11,5 @@ public interface IUserRepository
     Task<IEnumerable<User>> GetPagedAsync(int page, int pageSize);
     Task<int> GetTotalCountAsync();
     Task<bool> EmailExistsAsync(string email, int? excludeUserId = null);
+    Task<bool> SaveChangesAsync();
 }
