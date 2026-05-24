@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:17
+    container_name: deliverit_postgres_container
+    restart: always
+    environment:
+      - POSTGRES_USER=deliverit_admin
+      - POSTGRES_PASSWORD=deliverit_secure_password_2026
+      - POSTGRES_DB=deliverit_user_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - deliverit_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  deliverit_network:
+    driver: bridge
