@@ -38,7 +38,7 @@ public class UpdateUserEndpoint : IEndpoint
                 return Results.NotFound(new { Message = "User not found with this id.", id });
             }
     
-            var emailAlreadyExists = await userRepository.EmailExistsAsync(dto.Email, excludeUserId: id);
+            var emailAlreadyExists = await userRepository.EmailExistsAsync(dto.Email.ToLower(), excludeUserId: id);
             
             if (emailAlreadyExists)
             {
@@ -53,7 +53,6 @@ public class UpdateUserEndpoint : IEndpoint
             
             try
             {
-                await userRepository.UpdateAsync(user);
                 await userRepository.SaveChangesAsync();
 
                 var response = new UserResponseDto(

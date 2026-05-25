@@ -7,31 +7,45 @@ namespace UserManagement.Infra.Repositories;
 
 public class UserRepository(AppDbContext dbContext) : IUserRepository
 {
-    private readonly AppDbContext _dbContext = dbContext;
-
     public async Task AddAsync(User user)
     {
-        await _dbContext.Users.AddAsync(user);
+        await dbContext.Users.AddAsync(user);
     }
 
-    public async Task UpdateAsync(User user)
+    public Task UpdateAsync(User user)
     {
-        _dbContext.Users.Update(user);
+        try
+        {
+            dbContext.Users.Update(user);
+            return Task.CompletedTask;
+        }
+        catch (Exception exception)
+        {
+            return Task.FromException(exception);
+        }
     }
 
-    public async Task DeleteAsync(User user)
+    public Task DeleteAsync(User user)
     {
-        _dbContext.Users.Remove(user);
+        try
+        {
+            dbContext.Users.Remove(user);
+            return Task.CompletedTask;
+        }
+        catch (Exception exception)
+        {
+            return Task.FromException(exception);
+        }
     }
 
     public async Task<User?> GetByIdAsync(int id)
     {
-        return await _dbContext.Users.FindAsync(id);
+        return await dbContext.Users.FindAsync(id);
     }
 
     public async Task<IEnumerable<User>> GetPagedAsync(int page, int pageSize)
     {
-        return await _dbContext.Users
+        return await dbContext.Users
             .AsNoTracking()
             .OrderBy(x => x.Id)
             .Skip((page - 1) * pageSize)
@@ -41,17 +55,17 @@ public class UserRepository(AppDbContext dbContext) : IUserRepository
 
     public async Task<int> GetTotalCountAsync()
     {
-        return await _dbContext.Users.CountAsync();
+        return await dbContext.Users.CountAsync();
     }
     
     public async Task<bool> EmailExistsAsync(string email, int? excludeUserId = null)
     {
-        return await _dbContext.Users
+        return await dbContext.Users
             .AnyAsync(u => u.Email == email && (!excludeUserId.HasValue || u.Id != excludeUserId.Value));
     }
 
     public async Task<bool> SaveChangesAsync()
     {
-        return await _dbContext.SaveChangesAsync() > 0;
+        return await dbContext.SaveChangesAsync() > 0;
     }
 }
