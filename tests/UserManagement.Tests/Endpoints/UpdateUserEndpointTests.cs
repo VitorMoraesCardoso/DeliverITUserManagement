@@ -45,7 +45,7 @@ public class UpdateUserEndpointTests(UserManagementWebApplicationFactory factory
     private async Task UpdateUser_ShouldReturnNotFound_WhenUserIsNotUpdated()
     {
         var createUserRequest = new CreateUserDto(
-            "Luffy criado", "luffy@gmail.com", DateTime.Now.AddYears(-20));
+            "Luffy criado", "luffyasd@gmail.com", DateTime.Now.AddYears(-20));
 
         var createResponse = await _client.PostAsJsonAsync("/users", createUserRequest);
         createResponse.EnsureSuccessStatusCode();
@@ -69,7 +69,7 @@ public class UpdateUserEndpointTests(UserManagementWebApplicationFactory factory
     {
         // Arrange
         var createUserRequest = new CreateUserDto(
-            "Luffy criado", "luffy@gmail.com", DateTime.Now.AddYears(-20));
+            "Luffy criado 1", "luffyd@gmail.com", DateTime.Now.AddYears(-20));
         var createUserRequest2 = new CreateUserDto(
             "Luffy criado 2", "luffy2@gmail.com", DateTime.Now.AddYears(-20));
 
@@ -97,7 +97,7 @@ public class UpdateUserEndpointTests(UserManagementWebApplicationFactory factory
     {
         // Arrange
         var createUserRequest = new CreateUserDto(
-            "Luffy criado", "luffy@gmail.com", DateTime.Now.AddYears(-20));
+            "Luffy sd", "luffygg@gmail.com", DateTime.Now.AddYears(-20));
 
         var createResponse = await _client.PostAsJsonAsync("/users", createUserRequest);
         createResponse.EnsureSuccessStatusCode();
