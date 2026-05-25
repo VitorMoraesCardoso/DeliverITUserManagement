@@ -40,6 +40,11 @@ public class User
         {
             throw new ArgumentException("O nome é obrigatório.", nameof(nome));
         }
+        
+        if (nome.Trim().Length == 0)
+        {
+            throw new ArgumentException("O nome não pode ser vazio ou conter apenas espaços em branco.", nameof(nome));
+        }
 
         if (nome.Length > 50)
         {
@@ -49,6 +54,11 @@ public class User
         if (string.IsNullOrEmpty(email))
         {
             throw new ArgumentException("O email é obrigatório.", nameof(email));
+        }
+
+        if (email.Trim().Length == 0)
+        {
+            throw new ArgumentException("O email não pode ser vazio ou conter apenas espaços em branco.", nameof(email));
         }
 
         if (email.Length > 254)
