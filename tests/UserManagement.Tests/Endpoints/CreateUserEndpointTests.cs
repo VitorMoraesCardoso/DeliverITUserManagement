@@ -45,4 +45,39 @@ public class CreateUserEndpointTests(UserManagementWebApplicationFactory factory
         Assert.NotNull(userInDb);
         Assert.Equal(userInDb.Nome, dto.Nome);
     }
+
+    [Fact]
+    public async Task CreateUser_Duplicated_Email_Should_Return_Conflict()
+    {
+        var emailDuplicado = "email@gamil.com";
+        
+        var dto1 = new CreateUserDto("Luffy",  emailDuplicado,  DateTime.Now.AddYears(-20));
+        var dto2 = new CreateUserDto("Zoro",  emailDuplicado,  DateTime.Now.AddYears(-20));
+        
+        await _client.PostAsJsonAsync("users", dto1);
+        
+        var responseDuplicated = await _client.PostAsJsonAsync("users", dto2);
+        
+        Assert.Equal(HttpStatusCode.Conflict, responseDuplicated.StatusCode);
+    }
+
+    [Fact]
+    public async Task CreateUser_Invalid_Should_Return_BadRequest()
+    {
+        var invalidDto = new CreateUserDto("", "", DateTime.Now.AddYears(-20));
+        
+        var response = await _client.PostAsJsonAsync("users", invalidDto);
+        
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task CreateUser_InvalidDate_Should_Be_Caught_By_Validation_And_Return_BadRequest()
+    {
+        var invalidDto = new CreateUserDto("Luffy", "luffy@gmail.com", DateTime.Now.AddYears(+20));
+        
+        var response = await _client.PostAsJsonAsync("users", invalidDto);
+        
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
 }
