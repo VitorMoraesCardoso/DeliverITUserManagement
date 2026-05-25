@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using UserManagement.API.Endpoints;
+using UserManagement.API.Infrastructure;
 using UserManagement.API.Validators;
 using UserManagement.Domain.Interfaces;
 using UserManagement.Infra.Context;
@@ -24,6 +25,9 @@ builder.Services.AddUserValidations();
 
 builder.Services.AddEndpoints();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,6 +40,8 @@ if (app.Environment.IsDevelopment())
         x.SwaggerEndpoint("/swagger/v1/swagger.json", "User Management API V1");
     });
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 app.MapEndpoints();
