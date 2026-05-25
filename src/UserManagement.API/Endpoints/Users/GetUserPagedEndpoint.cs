@@ -23,8 +23,8 @@ public class GetUserPagedEndpoint : IEndpoint
     {
         if (page <= 0 || pageSize <= 0)
         {
-            logger.LogWarning("Invalid pagination parameters: page={Page}, pageSize={PageSize}", page, pageSize);
-            return Results.BadRequest(new { Message = "Page and pageSize must be greater than zero." });
+            page = 1;
+            pageSize = 10;
         }
         
         var users = await userRepository.GetPagedAsync(page, pageSize);
