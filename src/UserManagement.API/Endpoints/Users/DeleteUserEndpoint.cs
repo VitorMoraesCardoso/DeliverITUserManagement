@@ -22,12 +22,12 @@ public class DeleteUserEndpoint : IEndpoint
         var user  = await userRepository.GetByIdAsync(id);
         if (user == null)
         {
-            logger.LogError($"User with id {id} not found");
-            return Results.NotFound(new { Message = $"User with id: {id} was not found." });
+            logger.LogError("User with id ({id}) not found", id);
+            return Results.NotFound(new { Message = "User not found with this id.", id });
         }
         
         await userRepository.DeleteAsync(user);
-        logger.LogInformation($"User with id {id} successfully deleted");
+        logger.LogInformation("User with id ({userId}) successfully deleted", id);
         await userRepository.SaveChangesAsync();
         
         return Results.NoContent();

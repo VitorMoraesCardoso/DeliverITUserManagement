@@ -36,8 +36,8 @@ public class CreateUserEndpoint : IEndpoint
         
         if (emailAlreadyExists)
         {
-            logger.LogWarning("Email already exists: {Email}", dto.Email);
-            return Results.Conflict(new { Message = "Email already exists." });
+            logger.LogWarning("Email already exists: {Email}. Try another one", dto.Email);
+            return Results.Conflict(new { Message = "Email already exists. Try another one." });
         }
 
         try
@@ -61,7 +61,7 @@ public class CreateUserEndpoint : IEndpoint
             if (emailAlreadyExists)
             {
                 logger.LogWarning("Email already exists (DB constraint violation): {Email}", dto.Email);
-                return Results.Conflict(new { Message = "Email already exists." });
+                return Results.Conflict(new { Message = "Email already exists. Try another one." });
             }
             throw;
         }

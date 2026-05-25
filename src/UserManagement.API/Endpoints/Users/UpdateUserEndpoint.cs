@@ -35,7 +35,7 @@ public class UpdateUserEndpoint : IEndpoint
             
             if (user == null)
             {
-                return Results.NotFound(new { Message = $"User with id: {id} was not found." });
+                return Results.NotFound(new { Message = "User not found with this id.", id });
             }
     
             var emailAlreadyExists = await userRepository.EmailExistsAsync(dto.Email, excludeUserId: id);
@@ -43,7 +43,10 @@ public class UpdateUserEndpoint : IEndpoint
             if (emailAlreadyExists)
             {
                 logger.LogWarning("Email already exists: {Email}", dto.Email);
-                return Results.Conflict(new { Message = "Email already exists." });
+                return Results.Conflict(new
+                {
+                    Message = "E-mail already exists. Try another e-mail or create a new user", dto.Email
+                });
             }
     
             user.Update(dto.Nome, dto.Email, dto.DataNascimento);

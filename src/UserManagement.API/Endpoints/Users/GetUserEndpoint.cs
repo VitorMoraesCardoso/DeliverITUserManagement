@@ -24,7 +24,7 @@ public class GetUserEndpoint : IEndpoint
 
         if (user == null)
         {
-            return Results.NotFound(new { Message = $"User with id: {id} was not found." });
+            return Results.NotFound(new { Message = "User not found with this id.", id });
         }
         
         var response = new UserResponseDto(
